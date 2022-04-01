@@ -1,1 +1,1 @@
-# Morpion game coded in python.
+# Morpion game coded in python. (console game)
