@@ -22,12 +22,12 @@ def main():
 			print(Color.warning(f"Attention, case ({x}, {y}) déjà joué"))
 			print()
 
-		print(Style.bold(f"JOUEUR {player + 1}"))
+		print(Style.bold(f"PLAYER {player + 1}"))
 		print("---------------")
 
 		# ceil format (x, y)
 		# put ceil in "x, y" or "x y" format
-		inpt = input("Saisir une case ( 1-3, 1-3 ): ").strip()
+		inpt = input("Tip ceil ( 1-3, 1-3 ): ").strip()
 
 		try:
 			inpt = inpt.replace(",", " ")
