@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 from morpion import Morpion
+from utils.style import *
 import os
 
 def main():
@@ -11,20 +12,30 @@ def main():
 	while game.winner == None:
 		os.system("clear")
 
+		player = step%2
+
 		game.printChess()
+
+		print(Style.bold(f"JOUEUR {player + 1}"))
+		print("---------------")
 
 		# ceil format (x, y)
 		# put ceil in "x, y" or "x y" format
-		ceil = input(f"Player {step%2 + 1} (1-3, 1-3): ").strip()
-		ceil = ceil.replace(" ", ",")
+		inpt = input("Saisir une case ( 1-3, 1-3 ): ").strip()
 
-		x, y = map(int, ceil.split(","))
-
+		try:
+			inpt = inpt.replace(",", " ")
+			x, y = map(int, inpt.split())
+		except:
+			continue
+		
 		parsed_ceil = (x - 1)*3 + y - 1
 
-		if game.play(step%2, parsed_ceil) != -1:
-			# if user playing successfully
+		if game.play(player, parsed_ceil):
+			# when user playing successfully
 			step += 1
+		else:
+			print(Color.warning("Attention, case déjà joué"))
 
 	game.printChess()
 

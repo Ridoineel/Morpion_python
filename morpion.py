@@ -1,4 +1,4 @@
-from utils.styling import Color, Style
+from utils.style import *
 
 class Morpion:
 	def __init__(self):
@@ -10,20 +10,19 @@ class Morpion:
 		self.win_line = []
 
 	def play(self, player: int, ceil: int):
-		# target: (int, int)
-		
-		if player not in [0, 1]:
-			return
+		if self.chess[ceil] != ".":
+			return False
 
-		if self.chess[ceil] == ".":
-			self.chess[ceil] = ["0", "X"][player]
+		if player == 0:
+			self.chess[ceil] = "O"
+		elif player == 1:
+			self.chess[ceil] = "X"
 
-			self.checkWinner()
-		else:
-			return -1
+		self.checkWinner()
+
+		return True
 
 	def checkWinner(self):
-		winner = False
 		win_lines = [
 			[0, 1, 2],
 			[3, 4, 5],
@@ -36,20 +35,21 @@ class Morpion:
 		]
 
 		for i in win_lines:
-			containt = "".join([self.chess[i[k]] for k in range(3)])
+			a, b, c = i
 
-			if len(set(containt)) == 1 and "." not in containt:
-				# win
+			line = self.chess[a] + self.chess[b] + self.chess[c]
+
+			if "." not in line and len(set(line)) == 1:
+				# winner
+
 				self.win_line = i
-				winner_symbol = containt[0]
-				winner = [0, 1][winner_symbol == "X"]
 
-				self.winner = winner
+				if "O" in line:
+					self.winner = 0
+				else:
+					self.winner = 1
 
-				return winner
-
-		# no win
-		return None
+		return self.winner
 
 	def printChess(self, size=2):
 		size = min(size, 10)
@@ -83,7 +83,16 @@ class Morpion:
 				if (i + k) in self.win_line:
 					abc[k] = Style.blink(abc[k])
 
+			# line for size
+			for _ in range(size - 1):
+				print(line % (" ", " ", " "))
+
+			# symbols line
 			print(line % tuple(abc))
+
+			# line for size
+			for _ in range(size - 1):
+				print(line % (" ", " ", " "))
 
 			if i != 6:
 				print(separator_line)
