@@ -5,16 +5,22 @@ from utils.style import *
 import os
 
 def main():
-
 	game = Morpion()
 	step = 0
+	wrong_play = bool()
+	x = int()
+	y = int()
 
 	while game.winner == None:
-		os.system("clear")
-
 		player = step%2
 
+		os.system("clear")
+
 		game.printChess()
+
+		if wrong_play:
+			print(Color.warning(f"Attention, case ({x}, {y}) déjà joué"))
+			print()
 
 		print(Style.bold(f"JOUEUR {player + 1}"))
 		print("---------------")
@@ -34,8 +40,9 @@ def main():
 		if game.play(player, parsed_ceil):
 			# when user playing successfully
 			step += 1
+			wrong_play = False
 		else:
-			print(Color.warning("Attention, case déjà joué"))
+			wrong_play = True
 
 	game.printChess()
 
